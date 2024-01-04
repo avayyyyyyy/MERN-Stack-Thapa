@@ -1,28 +1,28 @@
-import { useSelector, useDispatch } from "react-redux";
-import { decreament, increament } from "../store/countSlice";
+import { BrowserRouter, Routes, Route } from "react-router-dom";
+import Home from "./Pages/Home";
+import About from "./Pages/About";
+import Contact from "./Pages/Contact";
+import Services from "./Pages/Services";
+import Login from "./Pages/Login";
+import Register from "./Pages/Register";
+import Navbar from "./Components/Navbar";
 
 const App = () => {
-  let count = useSelector((state) => state.count.value);
-  let dispatch = useDispatch();
-
   return (
-    <div>
-      <h1>Count: {count}</h1>
-      <button
-        onClick={() => {
-          dispatch(increament());
-        }}
-      >
-        Increase
-      </button>
-      <button
-        onClick={() => {
-          dispatch(decreament());
-        }}
-      >
-        Decrease
-      </button>
-    </div>
+    <>
+      <BrowserRouter>
+        <Navbar />
+        <Routes>
+          <Route path="/" element={<Home />} />
+          <Route path="/about" element={<About />} />
+          <Route path="/contact" element={<Contact />} />
+          <Route path="/services" element={<Services />} />
+          <Route path="/login" element={<Login />} />
+          <Route path="/register" element={<Register />} />
+        </Routes>
+      </BrowserRouter>
+      ;
+    </>
   );
 };
 
