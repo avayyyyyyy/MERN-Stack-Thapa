@@ -2,6 +2,8 @@ const User = require("../Models/user-model");
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 const validateUser = require("../Validators/user-validator");
+const messageValidate = require("../Validators/contact-message-validator");
+const Contact = require("../Models/contactSchema");
 
 const HomeRoute = (req, res) => {
   res.send("Hello From Home");
@@ -63,4 +65,28 @@ const registerUser = async (req, res) => {
   }
 };
 
-module.exports = { HomeRoute, registerUser, loginUser };
+const contactForm = async (req, res) => {
+  try {
+    const { username, email, message } = req.body;
+    let inserted = {
+      username,
+      email,
+      message,
+    };
+    let isMessageValidated = messageValidate.safeParse(inserted);
+
+    if (isMessageValidated.success === true) {
+      let inserted = await new Contact({
+        username,
+        email,
+        message,
+      });
+      inserted.save();
+      res.json({ msg: "Message Sent Successfullys" });
+    }
+  } catch (error) {
+    res.status(401).json({ err: "Error encounter while sendig message " });
+  }
+};
+
+module.exports = { HomeRoute, registerUser, loginUser, contactForm };
