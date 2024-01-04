@@ -21,7 +21,9 @@ const registerUser = async (req, res) => {
     });
     await inserted.save();
 
-    let token = jwt.sign({ email }, process.env.JWT_SECRET_KEY);
+    let token = jwt.sign({ email }, process.env.JWT_SECRET_KEY, {
+      expiresIn: "1d",
+    });
 
     res.json({ msg: "Data inserted successfully", token: token });
   }
