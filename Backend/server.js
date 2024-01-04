@@ -3,11 +3,12 @@ const express = require("express");
 const router = require("./Routes/auth-router");
 const app = express();
 const connectDB = require("./Config/ConnectDB");
-const globalError = require("./Middleware/globalError");
+const ErrorHandler = require("./Middleware/globalError");
+const cors = require("cors");
 
 connectDB();
-
-app.use(globalError);
+app.use(cors({ origin: "http://localhost:5173", credentials: true }));
+app.use(ErrorHandler);
 app.use(express.json());
 app.use("/", router);
 

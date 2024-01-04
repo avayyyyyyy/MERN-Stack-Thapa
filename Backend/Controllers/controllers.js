@@ -24,15 +24,16 @@ const loginUser = async (req, res) => {
       let token = jwt.sign({ email }, process.env.JWT_SECRET_KEY, {
         expiresIn: "1d",
       });
-      res.json({ msg: "Login Successful", token });
+      res.status(200).json({ msg: "Login Successful", token });
     }
   } catch (error) {
-    res.json({ err: "Invalid Credentials " });
+    res.status(400).json({ err: "Invalid Credentials " });
   }
 };
 
 const registerUser = async (req, res) => {
   const { username, email, phone, password } = req.body;
+  console.log(username, email, phone, password);
 
   if (await User.findOne({ email })) {
     res.json({ err: "user already exist, Please Login" });
