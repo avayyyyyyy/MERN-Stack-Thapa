@@ -6,6 +6,25 @@ const HomeRoute = (req, res) => {
   res.send("Hello From Home");
 };
 
+const loginUser = async (req, res) => {
+  try {
+    const { email, password } = req.body;
+    let UserFound = await User.findOne({ email });
+
+    if (!UserFound) {
+      res.json({ err: "invalid Credentials " });
+    }
+
+    let passCompared = await bcrypt.compare(password, UserFound.password);
+
+    if (UserFound && passCompared) {
+      res.json({ msg: "Login Successful" });
+    }
+  } catch (error) {
+    res.json({ err: "Invalid Credentials " });
+  }
+};
+
 const registerUser = async (req, res) => {
   const { username, email, phone, password } = req.body;
 
@@ -29,4 +48,4 @@ const registerUser = async (req, res) => {
   }
 };
 
-module.exports = { HomeRoute, registerUser };
+module.exports = { HomeRoute, registerUser, loginUser };
