@@ -1,5 +1,8 @@
-const HomeRoute = (req, res) => {
-  res.send("Hello !");
-};
+const express = require("express");
+const router = express.Router();
 
-module.exports = HomeRoute;
+router.get("/", (req, res) => {
+  res.send("Hello From Home");
+});
+
+module.exports = router;
