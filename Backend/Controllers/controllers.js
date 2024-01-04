@@ -1,6 +1,7 @@
-const express = require("express");
 const User = require("../Models/user-model");
 const bcrypt = require("bcrypt");
+const jwt = require("jsonwebtoken");
+
 const HomeRoute = (req, res) => {
   res.send("Hello From Home");
 };
@@ -16,10 +17,13 @@ const registerUser = async (req, res) => {
       username,
       email,
       phone,
-      password: hashedPass ,
+      password: hashedPass,
     });
     await inserted.save();
-    res.json({ msg: "Data inserted successfully" });
+
+    let token = jwt.sign({ email }, process.env.JWT_SECRET_KEY);
+
+    res.json({ msg: "Data inserted successfully", token: token });
   }
 };
 
