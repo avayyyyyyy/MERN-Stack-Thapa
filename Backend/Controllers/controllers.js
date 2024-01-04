@@ -54,11 +54,13 @@ const registerUser = async (req, res) => {
       });
       await newInserted.save();
 
-      let token = jwt.sign({ email }, process.env.JWT_SECRET_KEY, {
+      let id = await newInserted["_id"].toString();
+
+      let token = jwt.sign({ email, id }, process.env.JWT_SECRET_KEY, {
         expiresIn: "1d",
       });
 
-      res.json({ msg: "Signup successfull", token: token });
+      res.status(201).json({ msg: "Signup successfull", token: token });
     } else {
       res.json({ err: "Invalid Credentials" });
     }
